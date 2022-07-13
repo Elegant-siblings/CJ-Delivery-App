@@ -34,7 +34,7 @@ struct ApplyManager {
     let goo: String
 }
 
-class ViewController: UIViewController {
+class ApplyViewController: UIViewController {
     
     let shippingTypes: [String] = ["일반", "반품"]
     let shippingTimes: [String] = ["주간", "새벽"]
@@ -301,9 +301,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    // delegate, datasource 연결 및 picker를 textfied의 inputview로 설정한다
-    // pickerview는 하나만
+extension ApplyViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         if pickerView == pickerAvailCount {
             return 1
