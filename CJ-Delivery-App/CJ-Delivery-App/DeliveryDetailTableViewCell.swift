@@ -12,16 +12,16 @@ class DeliveryDetailTableViewCell: UITableViewCell {
     
     static let identifier = "DeliveryDetailTableViewCell"
     
-    let uiView: UIView = {
+
+    
+    let viewheader: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
-        view.layer.cornerRadius = 0.1
         return view
     }()
     
     let labelDate: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = .systemFont(ofSize: 23, weight: .semibold)
         return label
     } ()
     
@@ -39,7 +39,8 @@ class DeliveryDetailTableViewCell: UITableViewCell {
     
     let labelFrom: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .darkGray
         return label
     } ()
     
@@ -51,31 +52,52 @@ class DeliveryDetailTableViewCell: UITableViewCell {
     
     let labelState: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .systemFont(ofSize: 13, weight: .medium)
         return label
     } ()
+    
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(labelDate)
-        contentView.addSubview(labelName)
-        contentView.addSubview(labelNumber)
-        contentView.addSubview(labelFrom)
-        contentView.addSubview(labelTo)
-        contentView.addSubview(labelState)
-        labelDate.snp.makeConstraints{ make in
+        contentView.addSubviews([
+            viewheader,
+            labelName,
+            labelNumber,
+            labelFrom,
+            labelTo,
+            labelState
+        ])
+        
+        viewheader.addSubviews([labelDate, labelState])
+        
+        viewheader.snp.makeConstraints{ make in
             make.centerY.equalTo(self.contentView)
             make.centerX.equalTo(self.contentView.snp.leading).offset(45)
+            make.width.equalTo(self.contentView.snp.height)
+            make.height.equalToSuperview()
+        }
+        labelDate.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-8)
+        }
+        labelState.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(labelDate.snp.bottom).offset(3)
         }
         labelName.snp.makeConstraints{ make in
-            make.leading.equalTo(labelDate.snp.trailing).offset(30)
+            make.leading.equalTo(viewheader.snp.trailing)
             make.bottom.equalTo(labelNumber.snp.top).offset(-3)
             make.trailing.equalTo(self.contentView).offset(-10)
         }
         labelNumber.snp.makeConstraints{ make in
             make.leading.equalTo(labelName)
-            make.centerY.equalTo(labelDate)
+            make.centerY.equalTo(viewheader)
+        }
+        labelFrom.snp.makeConstraints { make in
+            make.leading.equalTo(viewheader.snp.trailing)
+            make.top.equalTo(labelNumber.snp.bottom).offset(3)
+            make.trailing.equalTo(self.contentView).offset(-10)
         }
     }
     
@@ -93,5 +115,14 @@ class DeliveryDetailTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8))
+    }
 }

@@ -226,19 +226,21 @@ class ApplyViewController: UIViewController {
         pickerCity.dataSource = self
 
         // Do any additional setup after loading the view.
-        self.view.addSubview(labelPageTitle)
-        self.view.addSubview(labelShippingType)
-        self.view.addSubview(labelDate)
-        self.view.addSubview(SCShippingType)
-        self.view.addSubview(datePicker)
-        self.view.addSubview(labelTime)
-        self.view.addSubview(SCShippingTime)
-        self.view.addSubview(labelCount)
-        self.view.addSubview(tfAvailCount)
-        self.view.addSubview(labelLocal)
-        self.view.addSubview(warningLabel)
-        self.view.addSubview(pickerCity)
-        self.view.addSubview(applyButton)
+        self.view.addSubviews([
+            labelPageTitle,
+            labelShippingType,
+            labelDate,
+            SCShippingType,
+            datePicker,
+            labelTime,
+            SCShippingTime,
+            labelCount,
+            tfAvailCount,
+            labelLocal,
+            warningLabel,
+            pickerCity,
+            applyButton
+        ])
         
         labelPageTitle.snp.makeConstraints { make in
             make.top.equalTo(self.view).offset(100)
