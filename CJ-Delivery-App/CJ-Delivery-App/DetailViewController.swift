@@ -12,6 +12,8 @@ class DetailViewController: UIViewController {
     var detail: DeliveryDetail?
     let heightDetailListRow = 40
     
+    let myImageView = UIImageView()
+    
     lazy var lableDetails: UILabel = {
         let label: UILabel = UILabel()
         label.text = "기본 정보"
@@ -59,14 +61,14 @@ class DetailViewController: UIViewController {
         return button
     }()
     
-    lazy var camera : UIImagePickerController = {
-        let imagePicker: UIImagePickerController = UIImagePickerController()
-        imagePicker.sourceType = .camera
-        imagePicker.cameraDevice = .rear
-        imagePicker.cameraCaptureMode = .photo
-//        imagePicker.delegate = self
-        return imagePicker
-    } ()
+//    lazy var camera : UIImagePickerController = {
+//        let imagePicker: UIImagePickerController = UIImagePickerController()
+//        imagePicker.sourceType = .camera
+//        imagePicker.cameraDevice = .rear
+//        imagePicker.cameraCaptureMode = .photo
+////        imagePicker.delegate = self
+//        return imagePicker
+//    } ()
     
     lazy var viewName = makeListRowView(rowTitle: "상품정보", rowContent: detail?.deliveryName)
     lazy var viewNumber = makeListRowView(rowTitle: "송장번호", rowContent: detail?.deliveryNumber)
@@ -84,9 +86,10 @@ class DetailViewController: UIViewController {
         print("배송완료")
         let imagePicker = UIImagePickerController()
         imagePicker.modalPresentationStyle = .fullScreen
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-//        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.cameraDevice = .rear
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.delegate = self
         self.present(imagePicker, animated: true)
     }
     
@@ -183,3 +186,17 @@ extension UIStackView {
     }
 }
 
+extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            myImageView.image = image
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
