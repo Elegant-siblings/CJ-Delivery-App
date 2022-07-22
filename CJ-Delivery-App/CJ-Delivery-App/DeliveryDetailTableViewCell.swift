@@ -20,7 +20,7 @@ class DeliveryDetailTableViewCell: UITableViewCell {
     let delType = "일반 배송"
     let state = "모집확정"
         
-    var curColor: UIColor = CjBlue
+    var curColor: UIColor = .cjBlue
     
     lazy var colorBar: UIView = {
         let view = UIView()
@@ -178,17 +178,17 @@ class DeliveryDetailTableViewCell: UITableViewCell {
     }
     
     private func deterColor(state: String) {
-        var color: UIColor = CjBlue
+        var color: UIColor = .cjBlue
         
         switch state {
         case "모집확정":
-            color = CjBlue
+            color = .cjBlue
         case "모집실패":
-            color = CjRed
+            color = .cjRed
         case "모집취소":
-            color = CjOrange
+            color = .cjOragne
         case "모집신청":
-            color = CjYellow
+            color = .cjYellow
         default: return
         }
         curColor = color
@@ -212,7 +212,7 @@ class DeliveryDetailTableViewCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.backgroundColor = CjWhite
+        contentView.backgroundColor = .cjWhite
         contentView.layer.cornerRadius = 10
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 2)

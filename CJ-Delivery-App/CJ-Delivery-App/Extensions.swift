@@ -24,6 +24,12 @@ extension UIColor {
            blue: rgb & 0xFF
        )
    }
+    class var cjWhite: UIColor { return UIColor(rgb: 0xF9F9F9) }
+    class var cjRed: UIColor { return UIColor(rgb: 0xFF6F6F) }
+    class var cjBlue: UIColor { return UIColor(rgb: 0x6FBAFF) }
+    class var cjOragne: UIColor { return UIColor(rgb: 0xFF9A6F) }
+    class var cjYellow: UIColor { return UIColor(rgb: 0xFFCE6E) }
+    
 }
 
 extension UIView {

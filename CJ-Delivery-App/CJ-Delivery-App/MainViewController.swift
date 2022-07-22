@@ -7,12 +7,6 @@
 
 import UIKit
 
-let CjRed = UIColor(rgb: 0xFF6F6F)
-let CjBlue = UIColor(rgb: 0x6FBAFF)
-let CjOrange = UIColor(rgb: 0xFF9A6F)
-let CjYellow = UIColor(rgb: 0xFFCE6E)
-let CjWhite = UIColor(rgb: 0xF9F9F9)
-
 class MainViewController: UINavigationController {
     
     // -MARK: variables
@@ -28,7 +22,7 @@ class MainViewController: UINavigationController {
     
     lazy var uiApplyButtonContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = CjWhite
+        view.backgroundColor = .cjWhite
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.3
         return view
@@ -43,7 +37,7 @@ class MainViewController: UINavigationController {
     // -MARK: UIButtons
     lazy var buttonApply: UIButton = {
         let button = UIButton()
-        button.backgroundColor = CjYellow
+        button.backgroundColor = .cjYellow
         button.layer.cornerRadius = 10
         button.setTitle("모집 신청하기", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -52,7 +46,7 @@ class MainViewController: UINavigationController {
     
     lazy var buttonSort: UIButton = {
         let button = UIButton()
-        button.backgroundColor = CjWhite
+        button.backgroundColor = .cjWhite
         button.layer.cornerRadius = 3
         button.layer.borderColor = UIColor(rgb: 0x8B8B8B).cgColor
         let customButtonLabel = NSMutableAttributedString(
@@ -70,13 +64,13 @@ class MainViewController: UINavigationController {
     
     lazy var buttonMenu: UIBarButtonItem = {
         let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-        item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: CjRed], for: .normal)
+        item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.cjRed], for: .normal)
         return item
     } ()
     
     lazy var buttonSiljeock: UIBarButtonItem = {
         let item = UIBarButtonItem(title: "Play", style: .plain, target: self, action: #selector(playTapped))
-        item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: CjRed], for: .normal)
+        item.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.cjRed], for: .normal)
         return item
     } ()
     
@@ -88,20 +82,20 @@ class MainViewController: UINavigationController {
         table.separatorStyle = .none
         table.register(DeliveryDetailTableViewCell.self, forCellReuseIdentifier: DeliveryDetailTableViewCell.identifier)
         table.rowHeight = 100
-        table.backgroundColor = CjWhite
+        table.backgroundColor = .cjWhite
         return table
     } ()
     
     lazy var SCDetailType: UISegmentedControl = {
         let sc: UISegmentedControl = UISegmentedControl(items: detailTypes)
-        sc.backgroundColor = CjWhite
+        sc.backgroundColor = .cjWhite
         sc.layer.cornerRadius = 3
-        sc.selectedSegmentTintColor = CjRed
+        sc.selectedSegmentTintColor = .cjRed
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .medium)], for: .normal)
-        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: CjRed, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold)], for: .selected)
+        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.cjRed, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold)], for: .selected)
         let backgroundImage = UIImage()
         let colorView = UIView()
-        colorView.backgroundColor = CjRed
+        colorView.backgroundColor = .cjRed
         let foregroundImage = colorView.asImage()
         sc.setBackgroundImage(backgroundImage, for: .normal, barMetrics: .default)
         sc.setBackgroundImage(foregroundImage, for: .selected, barMetrics: .default)
@@ -132,7 +126,7 @@ class MainViewController: UINavigationController {
     // -MARK: load
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = CjWhite
+        self.view.backgroundColor = .cjWhite
         self.navigationBar.barTintColor = UIColor(rgb: 0x193640)
         self.navigationBar.backgroundColor = UIColor(rgb: 0x193640)
         
@@ -216,7 +210,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let background = UIView()
         background.backgroundColor = .clear
         cell.selectedBackgroundView = background
-        cell.backgroundColor = CjWhite
+        cell.backgroundColor = .cjWhite
         return cell
     }
     
