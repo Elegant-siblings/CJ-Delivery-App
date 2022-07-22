@@ -20,6 +20,8 @@
 		785C7D0A2889B0FC006DCB84 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7D092889B0FB006DCB84 /* Extensions.swift */; };
 		786DB4C3288A959600603B13 /* HistorySegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DB4C2288A959500603B13 /* HistorySegmentedControl.swift */; };
 		786DB4C5288AF4E600603B13 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DB4C4288AF4E600603B13 /* ListViewController.swift */; };
+		78823169288AFF720083B42D /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78823168288AFF720083B42D /* ListTableViewCell.swift */; };
+		7882316B288B0BBA0083B42D /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882316A288B0BBA0083B42D /* InfoTableViewCell.swift */; };
 		A6A5CD7D83A5E621527E4D4E /* Pods_CJ_Delivery_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FCBACB48E297E39F2A30D73 /* Pods_CJ_Delivery_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,8 @@
 		785C7D092889B0FB006DCB84 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		786DB4C2288A959500603B13 /* HistorySegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySegmentedControl.swift; sourceTree = "<group>"; };
 		786DB4C4288AF4E600603B13 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		78823168288AFF720083B42D /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		7882316A288B0BBA0083B42D /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		7FCBACB48E297E39F2A30D73 /* Pods_CJ_Delivery_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CJ_Delivery_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82188903970D4F16C033B86 /* Pods-CJ-Delivery-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CJ-Delivery-App.release.xcconfig"; path = "Target Support Files/Pods-CJ-Delivery-App/Pods-CJ-Delivery-App.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +87,8 @@
 				785C7CF1287D8204006DCB84 /* HistoryViewController.swift */,
 				785C7CF7287E8603006DCB84 /* DetailViewController.swift */,
 				786DB4C4288AF4E600603B13 /* ListViewController.swift */,
+				7882316A288B0BBA0083B42D /* InfoTableViewCell.swift */,
+				78823168288AFF720083B42D /* ListTableViewCell.swift */,
 				785C7CF3287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift */,
 				1D707D6C287237DC00D594B6 /* Main.storyboard */,
 				785C7D0728899222006DCB84 /* MainViewController.swift */,
@@ -227,11 +233,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7882316B288B0BBA0083B42D /* InfoTableViewCell.swift in Sources */,
 				785C7D0828899222006DCB84 /* MainViewController.swift in Sources */,
 				786DB4C3288A959600603B13 /* HistorySegmentedControl.swift in Sources */,
 				1D707D6B287237DC00D594B6 /* ApplyViewController.swift in Sources */,
 				786DB4C5288AF4E600603B13 /* ListViewController.swift in Sources */,
 				1D707D67287237DC00D594B6 /* AppDelegate.swift in Sources */,
+				78823169288AFF720083B42D /* ListTableViewCell.swift in Sources */,
 				785C7D0A2889B0FC006DCB84 /* Extensions.swift in Sources */,
 				1D707D69287237DC00D594B6 /* SceneDelegate.swift in Sources */,
 				785C7CF8287E8603006DCB84 /* DetailViewController.swift in Sources */,
