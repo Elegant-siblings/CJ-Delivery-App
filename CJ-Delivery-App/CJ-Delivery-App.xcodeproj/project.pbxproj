@@ -16,6 +16,10 @@
 		785C7CF2287D8204006DCB84 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7CF1287D8204006DCB84 /* HistoryViewController.swift */; };
 		785C7CF4287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7CF3287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift */; };
 		785C7CF8287E8603006DCB84 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7CF7287E8603006DCB84 /* DetailViewController.swift */; };
+		785C7D0828899222006DCB84 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7D0728899222006DCB84 /* MainViewController.swift */; };
+		785C7D0A2889B0FC006DCB84 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C7D092889B0FB006DCB84 /* Extensions.swift */; };
+		786DB4C3288A959600603B13 /* HistorySegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DB4C2288A959500603B13 /* HistorySegmentedControl.swift */; };
+		786DB4C5288AF4E600603B13 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DB4C4288AF4E600603B13 /* ListViewController.swift */; };
 		A6A5CD7D83A5E621527E4D4E /* Pods_CJ_Delivery_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FCBACB48E297E39F2A30D73 /* Pods_CJ_Delivery_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +36,10 @@
 		785C7CF1287D8204006DCB84 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		785C7CF3287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryDetailTableViewCell.swift; sourceTree = "<group>"; };
 		785C7CF7287E8603006DCB84 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		785C7D0728899222006DCB84 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		785C7D092889B0FB006DCB84 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		786DB4C2288A959500603B13 /* HistorySegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySegmentedControl.swift; sourceTree = "<group>"; };
+		786DB4C4288AF4E600603B13 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		7FCBACB48E297E39F2A30D73 /* Pods_CJ_Delivery_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CJ_Delivery_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82188903970D4F16C033B86 /* Pods-CJ-Delivery-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CJ-Delivery-App.release.xcconfig"; path = "Target Support Files/Pods-CJ-Delivery-App/Pods-CJ-Delivery-App.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,8 +82,12 @@
 				1D707D6A287237DC00D594B6 /* ApplyViewController.swift */,
 				785C7CF1287D8204006DCB84 /* HistoryViewController.swift */,
 				785C7CF7287E8603006DCB84 /* DetailViewController.swift */,
+				786DB4C4288AF4E600603B13 /* ListViewController.swift */,
 				785C7CF3287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift */,
 				1D707D6C287237DC00D594B6 /* Main.storyboard */,
+				785C7D0728899222006DCB84 /* MainViewController.swift */,
+				785C7D092889B0FB006DCB84 /* Extensions.swift */,
+				786DB4C2288A959500603B13 /* HistorySegmentedControl.swift */,
 				1D707D6F287237DF00D594B6 /* Assets.xcassets */,
 				1D707D71287237DF00D594B6 /* LaunchScreen.storyboard */,
 				1D707D74287237DF00D594B6 /* Info.plist */,
@@ -215,8 +227,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				785C7D0828899222006DCB84 /* MainViewController.swift in Sources */,
+				786DB4C3288A959600603B13 /* HistorySegmentedControl.swift in Sources */,
 				1D707D6B287237DC00D594B6 /* ApplyViewController.swift in Sources */,
+				786DB4C5288AF4E600603B13 /* ListViewController.swift in Sources */,
 				1D707D67287237DC00D594B6 /* AppDelegate.swift in Sources */,
+				785C7D0A2889B0FC006DCB84 /* Extensions.swift in Sources */,
 				1D707D69287237DC00D594B6 /* SceneDelegate.swift in Sources */,
 				785C7CF8287E8603006DCB84 /* DetailViewController.swift in Sources */,
 				785C7CF4287DBAFC006DCB84 /* DeliveryDetailTableViewCell.swift in Sources */,

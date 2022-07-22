@@ -170,21 +170,7 @@ class DetailViewController: UIViewController {
     }
 }
 
-extension UIView {
-    func addSubviews(_ views: [UIView]) {
-        for view in views {
-            self.addSubview(view)
-        }
-    }
-}
 
-extension UIStackView {
-    func addArrangedSubviews(_ views: [UIView]) {
-        for view in views {
-            self.addArrangedSubview(view)
-        }
-    }
-}
 
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 

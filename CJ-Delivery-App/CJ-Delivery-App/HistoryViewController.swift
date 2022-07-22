@@ -83,11 +83,11 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DeliveryDetailTableViewCell.identifier, for: indexPath) as! DeliveryDetailTableViewCell
-        cell.labelDate.text = tableLabels[indexPath.row]
-        cell.labelName.text = names[indexPath.row]
-        cell.labelNumber.text = numbers[indexPath.row]
-        cell.labelFrom.text = details[indexPath.row].from + " >> " + details[indexPath.row].to
-        cell.labelState.text = states[indexPath.row]
+//        cell.labelDate.text = tableLabels[indexPath.row]
+//        cell.labelName.text = names[indexPath.row]
+//        cell.labelNumber.text = numbers[indexPath.row]
+//        cell.labelFrom.text = details[indexPath.row].from + " >> " + details[indexPath.row].to
+//        cell.labelState.text = states[indexPath.row]
         let background = UIView()
         background.backgroundColor = .clear
         cell.selectedBackgroundView = background
