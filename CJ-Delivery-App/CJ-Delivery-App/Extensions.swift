@@ -29,6 +29,7 @@ extension UIColor {
     class var cjBlue: UIColor { return UIColor(rgb: 0x6FBAFF) }
     class var cjOragne: UIColor { return UIColor(rgb: 0xFF9A6F) }
     class var cjYellow: UIColor { return UIColor(rgb: 0xFFCE6E) }
+    class var navBar: UIColor { return UIColor(rgb: 0x193640) }
     
 }
 

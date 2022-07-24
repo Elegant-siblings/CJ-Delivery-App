@@ -42,10 +42,13 @@ class ListViewController: UIViewController {
     lazy var tableView: ListTableView = {
         let table = ListTableView(
             rowHeight: tableRowHeight,
-            isScrollEnabled: false)
+            isScrollEnabled: false
+        )
         table.dataSource = self
-        table.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.identifier)
-        
+        table.register(
+            ListTableViewCell.self,
+            forCellReuseIdentifier: ListTableViewCell.identifier
+        )
         return table
     } ()
     
@@ -68,16 +71,14 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: InfoTableViewCell.identifier, for: indexPath) as! InfoTableViewCell
-//        switch indexPath.row {
-//        case 0:
-//            cell.backgroundColor = UIColor(rgb: 0xD9D9D9)
-//            break
-//        default:
-//            cell.backgroundColor = .white
-//        }
-        cell.titleLabel.text = titles[indexPath.row]
-        cell.contentLabel.text = contents[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
+        switch indexPath.row {
+        case 0:
+            cell.backgroundColor = UIColor(rgb: 0xD9D9D9)
+            break
+        default:
+            cell.backgroundColor = .white
+        }
         return cell
     }
 }

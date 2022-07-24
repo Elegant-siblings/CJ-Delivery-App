@@ -10,20 +10,54 @@ import UIKit
 class ListTableViewCell: UITableViewCell {
     static let identifier = "ListTableViewCell"
     
-    lazy var uiLabel: UILabel  = {
-       let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+    let titles = ["#", "배송상품", "배송지"]
+    
+    lazy var numLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.text = "#"
         return label
-    }()
+    } ()
+    
+    lazy var itemLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.text = "배송상품"
+        return label
+    } ()
+
+    lazy var addressLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.text = "배송지"
+        return label
+    } ()
+
+    
+    lazy var stackDetail: UIStackView = {
+        let view: UIStackView = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        return view
+    } ()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubviews([uiLabel])
+        contentView.addSubviews([stackDetail])
+//        contentView.backgroundColor = .red
+        stackDetail.addArrangedSubviews([numLabel,itemLabel,addressLabel])
         
-        uiLabel.snp.makeConstraints { make in
+        stackDetail.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            
+//            make.width.height.equalToSuperview()
+        }
+        
+        [numLabel,itemLabel,addressLabel].map{ view in
+            view.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+            }
         }
     }
     

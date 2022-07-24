@@ -142,7 +142,7 @@ class MainViewController: UINavigationController {
             buttonApply])
         
         self.uiTableContainer.addSubview(tableHistory)
-        
+
         setConstraints()
     }
     
@@ -184,8 +184,8 @@ class MainViewController: UINavigationController {
         buttonApply.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(self.view.snp.top).offset(754)
-            make.width.equalTo(343)
-            make.height.equalTo(48)
+            make.width.equalTo(primaryButtonWidth)
+            make.height.equalTo(primaryButtonHeight)
         }
         tableHistory.snp.makeConstraints { make in
             make.width.height.equalToSuperview()

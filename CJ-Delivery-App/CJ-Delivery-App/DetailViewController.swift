@@ -115,7 +115,6 @@ class DetailViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
     

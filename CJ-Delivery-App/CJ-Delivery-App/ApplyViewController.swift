@@ -7,7 +7,12 @@
 
 import UIKit
 import SnapKit
+import Then
 
+let primaryButtonHeight = 48
+let primaryButtonWidth = 343
+
+// -MARK: DataModels
 struct CitiesManager {
     let cities = [
         City(name: "서울시", goos: ["종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구","강동구"]),
@@ -25,6 +30,11 @@ struct City {
     let goos: [String]
 }
 
+struct Location {
+    let city: String
+    let goo: String
+}
+
 struct ApplyManager {
     let type: String
     let date: Date
@@ -34,14 +44,54 @@ struct ApplyManager {
     let goo: String
 }
 
-class ApplyViewController: UIViewController {
+// -MARK: custom class
+class ApplySectionTitleLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
     
-    let shippingTypes: [String] = ["일반", "반품"]
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    convenience init(title: String) {
+        self.init(frame: .zero)
+        self.text = title
+        self.font = .systemFont(ofSize: 23, weight: .semibold)
+    }
+}
+
+class PrimaryButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configure()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    convenience init(title: String) {
+        self.init(frame: CGRect(x: 0, y: 0, width: primaryButtonWidth, height: primaryButtonWidth))
+        self.setTitle(title, for: .normal)
+    }
+    
+    func configure() {
+        self.backgroundColor = .cjYellow
+        self.layer.cornerRadius = 10
+        self.titleLabel?.font = .boldSystemFont(ofSize: 20)
+    }
+}
+
+class ApplyViewController: UIViewController {
+    // -MARK: Constants
+    let shippingTypes: [String] = ["일반배송", "집화/반품"]
     let shippingTimes: [String] = ["주간", "새벽"]
     let avaiables: [String] = ["세단", "쿠페", "왜건", "SUV", "컨버터블", "해치백", "밴", "픽업트럭","기타"]
-    let pageTitle: String = "배송 신청"
-    let sectionTitlefontSize = CGFloat(25)
+    let sectionInset = CGFloat(30)
     let citiesManager = CitiesManager()
+    let pickerRowHeight = CGFloat(35)
+    let addButtonRadius = CGFloat(17)
     
     var type: String = "일반"
     var date: Date = Date()
@@ -50,56 +100,28 @@ class ApplyViewController: UIViewController {
     var city: String = "서울시"
     var goo: String = "종로구"
     
+    var toLists = [
+        Location(city: "부산시", goo: "북구"),
+        Location(city: "부산시", goo: "금정구")
+    ]
+    
     //-MARK: UIView
-    lazy var labelPageTitle: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = pageTitle
-        label.font = .systemFont(ofSize: 40, weight: .bold)
-        return label
-    }()
+    lazy var navBar = UIView().then{
+        $0.backgroundColor = .navBar
+    }
     
-    lazy var labelShippingType: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "배송 타입"
-        label.font = .systemFont(ofSize: sectionTitlefontSize, weight: .semibold)
-        return label
-    }()
+    lazy var labelShippingType = ApplySectionTitleLabel(title: "배송타입")
+    lazy var labelDate = ApplySectionTitleLabel(title: "날짜")
+    lazy var labelTime = ApplySectionTitleLabel(title: "배송시간")
+    lazy var labelVehicle = ApplySectionTitleLabel(title: "배송차량")
+    lazy var labelTo = ApplySectionTitleLabel(title: "배송지역")
+    lazy var labelFrom = ApplySectionTitleLabel(title: "출발지역")
     
-    lazy var labelDate: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "날짜"
-        label.font = .systemFont(ofSize: sectionTitlefontSize, weight: .semibold)
-        return label
-    }()
-    
-    lazy var labelTime: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "배송 시간"
-        label.font = .systemFont(ofSize: sectionTitlefontSize, weight: .semibold)
-        return label
-    }()
-    
-    lazy var labelCount: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "배송 수량"
-        label.font = .systemFont(ofSize: sectionTitlefontSize, weight: .semibold)
-        return label
-    }()
-    
-    lazy var warningLabel: UILabel = {
-        var label:UILabel = UILabel()
-        label.text = "차종을 선택해주세요."
-        label.font = .systemFont(ofSize: 15, weight: .light)
-        label.textColor = .red
-        return label
-    }()
-    
-    lazy var labelLocal: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "배송 지역"
-        label.font = .systemFont(ofSize: sectionTitlefontSize, weight: .semibold)
-        return label
-    }()
+    lazy var warningLabel = UILabel().then{
+        $0.text = "배송차량을 선택해주세요."
+        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.textColor = .red
+    }
     
     lazy var SCShippingType: UISegmentedControl = {
         let sc: UISegmentedControl = UISegmentedControl(items: shippingTypes)
@@ -115,16 +137,14 @@ class ApplyViewController: UIViewController {
         return sc
     }()
     
-    lazy var datePicker: UIDatePicker = {
-        let dp: UIDatePicker = UIDatePicker()
-        dp.preferredDatePickerStyle = .wheels
-        dp.datePickerMode = .date
-        dp.minimumDate = Date()
-        dp.locale = Locale(identifier: "ko-KR")
-        dp.timeZone = .autoupdatingCurrent
-        dp.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
-        return dp
-    }()
+    lazy var datePicker = UIDatePicker().then{
+        $0.preferredDatePickerStyle = .automatic
+        $0.datePickerMode = .date
+        $0.minimumDate = Date()
+        $0.locale = Locale(identifier: "ko-KR")
+        $0.timeZone = .autoupdatingCurrent
+        $0.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
+    }
     
     lazy var tfAvailCount: UITextField = {
         let tf: UITextField = UITextField()
@@ -151,17 +171,163 @@ class ApplyViewController: UIViewController {
         return tb
     }()
     
-    lazy var applyButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.backgroundColor = .darkGray
-//        button.layer.cornerRadius = 5
-        button.setTitle("배송 요청하기", for: .normal)
-        button.addTarget(self, action: #selector(self.touchUpApplyButton), for: .touchUpInside)
-        return button
-    }()
+    lazy var applyButton = PrimaryButton(title: "업무조회")
+    lazy var addButton = UIButton().then{
+        $0.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+        $0.layer.cornerRadius = addButtonRadius
+        $0.tintColor = .cjBlue
+        $0.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        $0.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
+    }
     
+    lazy var tableView = ListTableView(rowHeight: 30, isScrollEnabled: false)
     let pickerAvailCount = UIPickerView()
-    let pickerCity = UIPickerView()
+    let pickerTo = UIPickerView()
+    let pickerFrom = UIPickerView()
+    
+
+    // -MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
+//        self.view.addSubviews()
+        
+        pickerAvailCount.delegate = self
+        pickerAvailCount.dataSource = self
+        pickerTo.delegate = self
+        pickerTo.dataSource = self
+        pickerFrom.delegate = self
+        pickerFrom.dataSource = self
+        tableView.dataSource = self
+
+        // Do any additional setup after loading the view.
+        
+        // -MARK: addSubviews
+        self.view.addSubviews([
+            navBar,
+            labelShippingType,
+            labelDate,
+            SCShippingType,
+            datePicker,
+            labelTime,
+            SCShippingTime,
+            labelVehicle,
+            tfAvailCount,
+            warningLabel,
+            labelFrom,
+            pickerFrom,
+            labelTo,
+            pickerTo,
+            addButton,
+            applyButton
+        ])
+        
+        setConstraints()
+
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        pickerFrom.subviews[1].backgroundColor = .clear
+        
+        let upLine = UIView(frame: CGRect(x: 15, y: 0, width: 150, height: 1))
+        let underLine = UIView(frame: CGRect(x: 15, y: pickerRowHeight, width: 150, height: 1))
+        
+        upLine.backgroundColor = .cjBlue
+        underLine.backgroundColor = .cjBlue
+        
+        pickerFrom.subviews[1].addSubview(upLine)
+        pickerFrom.subviews[1].addSubview(underLine)
+        
+//        pickerTo.subviews[1].addSubviews([upLine,underLine])
+    }
+    
+    // -MARK: makeConstraints
+    private func setConstraints() {
+        navBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        labelShippingType.snp.makeConstraints{ make in
+            make.top.equalTo(navBar.snp.bottom).offset(40)
+            make.leading.equalTo(self.view).offset(20)
+        }
+        SCShippingType.snp.makeConstraints{ make in
+            make.leading.equalTo(self.view.frame.width/2)
+            make.centerY.equalTo(labelShippingType)
+        }
+        labelDate.snp.makeConstraints{ make in
+            make.top.equalTo(labelShippingType.snp.bottom).offset(sectionInset)
+            make.leading.equalTo(self.view).offset(20)
+        }
+        datePicker.snp.makeConstraints{ (make) in
+            make.centerY.equalTo(labelDate)
+            make.leading.equalTo(self.view.frame.width/2)
+        }
+        labelTime.snp.makeConstraints{ make in
+            make.top.equalTo(datePicker.snp.bottom).offset(sectionInset)
+            make.leading.equalTo(self.view).offset(20)
+        }
+        SCShippingTime.snp.makeConstraints{ (make) in
+            make.leading.equalTo(self.view.frame.width/2)
+            make.centerY.equalTo(labelTime)
+        }
+        labelVehicle.snp.makeConstraints{ make in
+            make.top.equalTo(labelTime.snp.bottom).offset(38)
+            make.leading.equalTo(self.view).offset(20)
+        }
+        tfAvailCount.snp.makeConstraints{ make in
+            make.centerY.equalTo(labelVehicle)
+            make.leading.equalTo(self.view.frame.width/2)
+            make.width.equalTo(self.view.frame.width/2-8)
+            make.height.equalTo(40)
+        }
+        warningLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(tfAvailCount).offset(1)
+            make.top.equalTo(tfAvailCount.snp.bottom).offset(2)
+        }
+        
+        labelFrom.snp.makeConstraints { make in
+            make.top.equalTo(labelVehicle.snp.bottom).offset(40)
+            make.leading.equalToSuperview().offset(20)
+        }
+        
+        pickerFrom.snp.makeConstraints { make in
+            make.centerY.equalTo(labelFrom)
+            make.leading.equalTo(self.view.frame.width/2)
+            make.width.equalTo(self.view.frame.width/2-8)
+            make.height.equalTo(pickerRowHeight+20)
+        }
+
+        labelTo.snp.makeConstraints{ make in
+            make.top.equalTo(labelFrom.snp.bottom).offset(35)
+            make.leading.equalTo(self.view).offset(20)
+        }
+
+        pickerTo.snp.makeConstraints{ make in
+            make.centerY.equalTo(labelTo)
+            make.leading.equalTo(labelTo.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().offset(-50)
+            make.height.equalTo(100)
+        }
+        
+        addButton.snp.makeConstraints { make in
+            make.centerY.equalTo(labelTo)
+            make.leading.equalTo(pickerTo.snp.trailing).offset(3)
+            make.width.equalTo(addButtonRadius*2)
+            make.height.equalTo(addButtonRadius*2)
+        }
+        
+        applyButton.snp.makeConstraints{ make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(755)
+            make.width.equalTo(primaryButtonWidth)
+            make.height.equalTo(primaryButtonHeight)
+        }
+    }
     
     //-MARK: #Selector
     @objc
@@ -217,99 +383,17 @@ class ApplyViewController: UIViewController {
         let applyInfo = ApplyManager(type: self.type, date: self.date, time: self.time, count: self.count, city: self.city, goo: self.goo)
         print(applyInfo)
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        pickerAvailCount.delegate = self
-        pickerAvailCount.dataSource = self
-        pickerCity.delegate = self
-        pickerCity.dataSource = self
-
-        // Do any additional setup after loading the view.
-        self.view.addSubviews([
-            labelPageTitle,
-            labelShippingType,
-            labelDate,
-            SCShippingType,
-            datePicker,
-            labelTime,
-            SCShippingTime,
-            labelCount,
-            tfAvailCount,
-            labelLocal,
-            warningLabel,
-            pickerCity,
-            applyButton
-        ])
-        
-        labelPageTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(100)
-            make.leading.equalTo(self.view).offset(15)
-        }
-        labelShippingType.snp.makeConstraints{ make in
-            make.top.equalTo(labelPageTitle.snp.bottom).offset(40)
-            make.leading.equalTo(self.view).offset(20)
-        }
-        SCShippingType.snp.makeConstraints{ make in
-            make.leading.equalTo(self.view.frame.width/2)
-            make.centerY.equalTo(labelShippingType)
-        }
-        labelDate.snp.makeConstraints{ make in
-            make.top.equalTo(labelShippingType.snp.bottom).offset(30)
-            make.leading.equalTo(self.view).offset(20)
-        }
-        datePicker.snp.makeConstraints{ (make) in
-            make.top.equalTo(labelDate.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(130)
-        }
-        labelTime.snp.makeConstraints{ make in
-            make.top.equalTo(datePicker.snp.bottom).offset(10)
-            make.leading.equalTo(self.view).offset(20)
-        }
-        SCShippingTime.snp.makeConstraints{ (make) in
-            make.leading.equalTo(self.view.frame.width/2)
-            make.centerY.equalTo(labelTime)
-        }
-        labelCount.snp.makeConstraints{ make in
-            make.top.equalTo(labelTime.snp.bottom).offset(38)
-            make.leading.equalTo(self.view).offset(20)
-        }
-        tfAvailCount.snp.makeConstraints{ make in
-            make.centerY.equalTo(labelCount)
-            make.leading.equalTo(self.view.frame.width/2)
-            make.width.equalTo(self.view.frame.width/2-8)
-            make.height.equalTo(50)
-        }
-        warningLabel.snp.makeConstraints{ make in
-            make.leading.equalTo(tfAvailCount).offset(1)
-            make.top.equalTo(tfAvailCount.snp.bottom).offset(2)
-        }
-
-        labelLocal.snp.makeConstraints{ make in
-            make.top.equalTo(labelCount.snp.bottom).offset(38)
-            make.leading.equalTo(self.view).offset(20)
-        }
-        pickerCity.snp.makeConstraints{ make in
-            make.top.equalTo(labelLocal.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-        }
-        applyButton.snp.makeConstraints{ make in
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(85)
-        }
-    }
 }
+
+// -MARK: extensions
 
 extension ApplyViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        if pickerView == pickerAvailCount {
-            return 1
+        if pickerView == pickerTo {
+            return 2
         }
         else {
-            return 2
+            return 1
         }
     }
     // pickerview의 선택지는 데이터의 개수만큼
@@ -317,50 +401,125 @@ extension ApplyViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if pickerView == pickerAvailCount {
             return avaiables.count
         }
-        else {
+        else if pickerView == pickerTo {
             if component==0 {
                 return citiesManager.cities.count
             }
             else {
-                let selectedCity = pickerCity.selectedRow(inComponent: 0)
+                let selectedCity = pickerTo.selectedRow(inComponent: 0)
                 return citiesManager.cities[selectedCity].goos.count
             }
         }
+        else {
+            return citiesManager.cities.count
+        }
     }
     // pickerview 내 선택지의 값들을 원하는 데이터로 채워준다.
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == pickerAvailCount {
-            return avaiables[row]
-        }
-        else {
-            if component == 0 {
-                return citiesManager.cities[row].name
-            }
-            else {
-                let selectedCity = pickerCity.selectedRow(inComponent: 0)
-                return citiesManager.cities[selectedCity].goos[row]
-            }
-        }
-    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        if pickerView == pickerAvailCount {
+//            return avaiables[row]
+//        }
+//        else if pickerView == pickerTo{
+//            if component == 0 {
+//                return citiesManager.cities[row].name
+//            }
+//            else {
+//                let selectedCity = pickerTo.selectedRow(inComponent: 0)
+//                return citiesManager.cities[selectedCity].goos[row]
+//            }
+//        }
+//        else {
+//            return citiesManager.cities[row].name
+//        }
+//    }
     // textfield의 텍스트에 pickerview에서 선택한 값을 넣어준다.
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == pickerAvailCount {
             self.tfAvailCount.text = self.avaiables[row]
             warningLabel.textColor = .white
         }
-        else {
+        else if pickerView == pickerTo{
             if component == 0 {
-                pickerCity.selectRow(0, inComponent: 1, animated: false)
+                pickerTo.selectRow(0, inComponent: 1, animated: false)
             }
 
-            let cityIdx = pickerCity.selectedRow(inComponent: 0)
+            let cityIdx = pickerTo.selectedRow(inComponent: 0)
             let selectedCity = citiesManager.cities[cityIdx].name
-            let gooIdx = pickerCity.selectedRow(inComponent: 1)
+            let gooIdx = pickerTo.selectedRow(inComponent: 1)
             let selectedGoo = citiesManager.cities[cityIdx].goos[gooIdx]
             self.city = selectedCity
             self.goo = selectedGoo
             
-            pickerCity.reloadComponent(1)
+            pickerTo.reloadComponent(1)
+        }
+        else {
+            print(citiesManager.cities[row].name)
         }
     }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return pickerRowHeight
+    }
+   
+//    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+//
+//        var title: String = ""
+//        if pickerView == pickerAvailCount {
+//            title = avaiables[row]
+//        }
+//        else if pickerView == pickerFrom {
+//            title = citiesManager.cities[row].name
+//        }
+//        if pickerView == pickerTo{
+//            if component == 0 {
+//                title = citiesManager.cities[row].name
+//                pickerTo.reloadComponent(1)
+//            }
+//            else {
+//                let selectedCity = pickerTo.selectedRow(inComponent: 0)
+//                title = citiesManager.cities[selectedCity].goos[row]
+//            }
+//        }
+//        return NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 5, weight: .medium)])
+//    }
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: pickerRowHeight))
+
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: pickerRowHeight))
+        if pickerView == pickerAvailCount {
+            label.text = avaiables[row]
+        }
+        else if pickerView == pickerFrom {
+            label.text = citiesManager.cities[row].name
+        }
+        if pickerView == pickerTo{
+            if component == 0 {
+                label.text = citiesManager.cities[row].name
+                pickerTo.reloadComponent(1)
+            }
+            else {
+                let selectedCity = pickerTo.selectedRow(inComponent: 0)
+                label.text = citiesManager.cities[selectedCity].goos[row]
+            }
+        }
+        label.textAlignment = .center
+        view.addSubview(label)
+        return view
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 80
+    }
+}
+
+extension ApplyViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return toLists.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    
 }
